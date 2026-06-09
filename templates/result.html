@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ company }} | Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- Background Video -->
+<video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='video/res.mp4') }}" type="video/mp4">
+</video>
+
+<div class="company-name">{{ company }}</div>
+
+<div class="center-page">
+
+<div class="form-card animate">
+
+<h2>Prediction Result</h2>
+
+<p><strong>Product:</strong> {{ product }}</p>
+<p><strong>Demand Level:</strong> {{ demand }}</p>
+<p><strong>Suggested Stock:</strong> {{ stock }} units</p>
+<p><strong>Potential Revenue:</strong> ${{ revenue }}</p>
+
+<!-- Confidence Meter -->
+<div class="confidence-box">
+
+<h3>Prediction Confidence</h3>
+
+<div class="meter">
+<div class="meter-fill" style="width: {{ confidence if confidence else 0 }}%"></div>
+</div>
+
+<p>{{ confidence if confidence else 0 }}%</p>
+
+</div>
+
+<div style="margin-top:30px; display:flex; flex-direction:column; gap:15px;">
+
+<a href="/recommendations" class="btn">
+View AI Business Insights
+</a>
+
+<a href="/dashboard" class="btn">
+Open Analytics Dashboard
+</a>
+
+</div>
+
+</div>
+</div>
+
+</body>
+</html>

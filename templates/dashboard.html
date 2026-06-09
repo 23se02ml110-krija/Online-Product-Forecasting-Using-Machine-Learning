@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Business Intelligence Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background: #f4f7f6; font-family: sans-serif; padding: 20px; }
+        .stats-container { display: flex; gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 10px; flex: 1; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card h3 { color: hwb(0 7% 91%); }
+        .chart-box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(13, 12, 12, 0.8); max-width: 800px; margin: 0 auto; }
+        .btn { display: inline-block; padding: 10px 20px; background: #090909; color: white; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+
+<body>
+    
+    <h1>Inventory Analytics Dashboard</h1>
+    
+    <div class="stats-container">
+        <div class="stat-card">
+            <h3>Total Products</h3>
+            <p style="font-size: 24px; font-weight: bold;">{{ total }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Forecasted Revenue</h3>
+            <p style="font-size: 24px; font-weight: bold;">${{ "{:,.2f}".format(rev) }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>High Demand Items</h3>
+            <p style="font-size: 24px; font-weight: bold;">{{ high }}</p>
+        </div>
+    </div>
+
+    <div class="chart-box">
+        <canvas id="revenueChart"></canvas>
+    </div>
+
+    <div style="background: #fff; padding: 20px; border-radius: 10px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <h3 style="color: #0d0d0d; margin-top: 0;">Market Trend Simulator</h3>
+        <form action="/simulate" method="POST" style="display: flex; gap: 10px; align-items: center;">
+            <select name="scenario" style="padding: 10px; border-radius: 5px; border: 1px solid #ddd; flex: 1;">
+                <option value="normal">Normal Market Conditions</option>
+                <option value="holiday">Holiday Season Rush (Demand x1.5)</option>
+                <option value="crash">Economic Downturn (Demand x0.5)</option>
+            </select>
+            <button type="submit" style="background: #151516; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Apply Scenario
+            </button>
+        </form>
+    </div>
+
+    <div style="margin-top: 40px; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h3 style="color: #151515; border-bottom: 2px solid #e5d9f2; padding-bottom: 10px;">🕒 Recent System Alerts</h3>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr style="background: #f8f9fa; text-align: left;">
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Time</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Product</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Action</th>
+                    <th style="padding: 12px; border-bottom: 2px solid #dee2e6;">Stock Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee; font-size: 14px;">{{ alert.Timestamp }}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee; font-weight: bold;">{{ alert.Product }}</td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;"><span style="color: #dc3545;">● {{ alert.Status }}</span></td>
+                    <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ alert.Quantity }} left</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px; color: #888;">No alerts triggered yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <center><a href="/" class="btn">Add More Products</a></center>
+
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ labels|tojson }},
+                datasets: [{
+                    label: 'Revenue Potential per Product ($)',
+                    data: {{ values|tojson }},
+                    backgroundColor: '#000000'   // 🔥 BLACK COLOR
+                }]
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ company }} | Add Product</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+
+<video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='video/bg.mp4') }}" type="video/mp4">
+</video>
+
+
+
+<div class="company-name">{{ company }}</div>
+
+<div class="center-page">
+<div class="form-card animate">
+
+<h2>Add Product Details</h2>
+
+<form action="/predict" method="post">
+
+<input type="text" name="product" placeholder="Product Name" required>
+<input type="number" name="price" placeholder="Price" required>
+<input type="number" name="quantity" placeholder="Quantity" required>
+
+<label style="font-size:14px; margin-top:10px;">Product Rating</label>
+
+<div class="star-rating" id="stars">
+    <span data-value="1">☆</span>
+    <span data-value="2">☆</span>
+    <span data-value="3">☆</span>
+    <span data-value="4">☆</span>
+    <span data-value="5">☆</span>
+</div>
+
+<input type="hidden" name="rating" id="ratingValue" required>
+
+<button type="submit">Predict Demand</button>
+
+</form>
+
+</div>
+</div>
+
+<script>
+const stars = document.querySelectorAll("#stars span");
+const ratingInput = document.getElementById("ratingValue");
+
+stars.forEach(star => {
+    star.addEventListener("click", () => {
+        let value = star.getAttribute("data-value");
+        ratingInput.value = value;
+
+        stars.forEach(s => s.textContent = "☆");
+        for (let i = 0; i < value; i++) {
+            stars[i].textContent = "★";
+        }
+    });
+});
+</script>
+
+</body>
+</html>

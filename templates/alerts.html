@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stock Alerts</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Low Stock Alerts</h2>
+
+    {% if tables %}
+    <table border="1" cellpadding="10">
+        <tr>
+            <th>Product</th>
+            <th>Suggested Stock</th>
+        </tr>
+        {% for row in tables %}
+        <tr>
+            <td>{{ row.Product }}</td>
+            <td>{{ row.Suggested_Stock }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No low stock alerts 🎉</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

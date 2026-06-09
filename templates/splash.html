@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ company }}</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #101011, #eef0f3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .logo {
+            font-size: 60px;
+            color: rgb(6, 2, 2);
+            letter-spacing: 4px;
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.7); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .tap-text {
+            position: absolute;
+            bottom: 40px;
+            color: rgba(9, 1, 1, 0.6);
+            font-size: 14px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+
+<body onclick="goNext()">
+
+    <div class="logo">{{ company }}</div>
+    <div class="tap-text">Tap Anywhere To Continue</div>
+
+<script>
+function goNext() {
+    document.body.style.transition = "opacity 0.8s";
+    document.body.style.opacity = 0;
+
+    setTimeout(function() {
+        window.location.href = "/home";
+    }, 800);
+}
+</script>
+
+</body>
+</html>

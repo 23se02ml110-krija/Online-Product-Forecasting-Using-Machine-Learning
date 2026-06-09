@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ company }} | AI Insights</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<video autoplay muted loop id="bg-video">
+    <source src="{{ url_for('static', filename='video/das.mp4') }}" type="video/mp4">
+</video>
+
+
+<div class="company-name">{{ company }}</div>
+
+<div class="center-page">
+<div class="form-card animate">
+
+<h2>AI Stock Recommendations</h2>
+
+{% for item in insights %}
+<div class="option-card animate delay1">
+    {{ item }}
+</div>
+{% endfor %}
+
+<div class="option-card animate delay2">
+    <a href="/" class="btn">Add Another Product</a>
+</div>
+
+<div class="option-card animate delay3">
+    <a href="/export" class="btn">Download Business Report</a>
+</div>
+
+</div>
+</div>
+
+</body>
+</html>
